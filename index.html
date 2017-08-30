@@ -12,33 +12,39 @@
 <body>
     <script src = "assets/javascript/app.js">
     </script>
-    <h1> Animal Groups Trivia </h1>
+    <header> Animal Groups Trivia </header>
     <div class = "container">
         <div class = "col align-self-center">
-    
+            <div class = "row spacer"></div>
             <span class = "row justify-content-center" id = "question"> </span>
             <div class = "btn-group-vertical align-self-center">
-                <button type = "button" class = "btn btn-primary" id = "option-1" value = "1">here am I send me.....</button>
-                 <button type = "button" class = "btn btn-primary" id = "option-2" value = "2">here2</button>
-                <button type = "button" class = "btn btn-primary" id = "option-3" value = "3">here3</button>
-                <button type = "button" class = "btn btn-primary" id = "option-4" value = "4">here4</button>
+                <button type = "button" class = "btn btn-block btn-lg answer" id = "option-1" value = "1">here1</button>
+                 <button type = "button" class = "btn btn-block btn-lg answer" id = "option-2" value = "2">here2</button>
+                <button type = "button" class = "btn btn-block btn-lg answer" id = "option-3" value = "3">here3</button>
+                <button type = "button" class = "btn btn-block btn-lg answer" id = "option-4" value = "4">here4</button>
             </div>
             <h2 id = "seconds-count"></h2>
+            <h2 id = "message"></h2>
         </div>
         <div id = "picture"></div>
+<!-- 
+        <h2 id = "timer"></h2> -->
+        
+        <div class = "timer-buttons">
+            <button class = "btn" id = "new-question">New Question</button>
+            <button class = "btn" id = "stop">Stop Timer</button> 
+        </div>
+
+        <!-- <div class = "buttons">
+            <button class = "btn" id = "start">start</button>    
+            <button class = "btn" id = "cancel">cancel</button>
+            <button class = "btn" id = "reset">reset</button>
+        </div> -->
+
     </div>
 
 
-    <h2 id = "timer"></h2>
-    <div class = "buttons">
-        <button class = "btn" id = "start">start</button>    
-        <button class = "btn" id = "cancel">cancel</button>
-        <button class = "btn" id = "reset">reset</button>
-    </div>
-    <div class = "timer-buttons">
-        <button class = "btn" id = "secCount">seconds</button>
-        <button class = "btn" id = "stopCount">Stop Timer</button> 
-    </div>
+    
    
     
 </body>

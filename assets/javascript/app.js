@@ -1,181 +1,81 @@
-
-//list groups as a dictionary, with the question/answer pair together
-//keep outside functions so they're global
-
-var animalGroups = { 'Alligators':'Congregation' , 'Apes':'Shrewdness', 'Barracudas':'Battery', 'Clams':'Bed',
-'Crows':'Murder', 'Geese':'Gaggle', 'Gnus':'Implausibility', 'Hedgehogs':'Array', 'Ponies':'String', 
-'Mice':'Mischief', 'Mosquitoes':'Scourge', 'Cockroaches':'Intrusion', 'Cobras':'Quiver', 'Owls':'Parliament', 
-'Rattlesnakes':'Rhumba', 'Rhinos':'Crash', 'Salamanders':'Congress', 'Wolves':'Pack', 'Wombats':'Wisdom', 
-'Zebras':'Zeal', 'Lions':'Pride', 'Cats':'Nuisance','Camels':'Caravan'};
-
-var quiz=[];
-
-quiz[0] = new quizConstructor('Alligators','Scourge','Congregation','Array','Herd',2,false);
-quiz[1] = new quizConstructor('Crows','Murder','Flutter','Omen','Poe',1,false);
-quiz[2] = new quizConstructor('Geese','Nuisance','Parliament','Gaggle','Honk',3,false);
-quiz[3] = new quizConstructor('Mice','Click','Mischief','Nibble','World',2,false);
-quiz[4] = new quizConstructor('Cockroaches','Immortality','Crunch','Plague','Intrusion',4,false);
-// --- need to modify the rest ---
-// quiz[5] = new quizConstructor('Rhinos','Crash',false;
-// quiz[6] = new quizConstructor('Zebras','Zeal',false);
-// quiz[7] = new quizConstructor('Rattlesnakes','Rhumba',false);
-// quiz[8] = new quizConstructor('Cats','Nuisance',false);
-// quiz[9] = new quizConstructor('Hedgehogs','Array',false);
-// quiz[10] = new quizConstructor('Ponies','String',false);
-// quiz[11] = new quizConstructor('Wombats','Wisdom',false);
-// quiz[12] = new quizConstructor('Wolves','Pack',false);
-// quiz[13] = new quizConstructor('Lions','Pride',false);
-// quiz[14] = new quizConstructor('Owls','Parliament',false);
-// quiz[15] = new quizConstructor('Wombats','Wisdom',false);
-// quiz[16] = new quizConstructor('Salamanders','congress',false);
-// quiz[17] = new quizConstructor('Barracuda','Battery',false);
-// quiz[18] = new quizConstructor('Wombats','Wisdom',false);
-// quiz[19] = new quizConstructor('Apes','Shrewdness',false);
-// quiz[20] = new quizConstructor('Mosquitos','Scourge',false);
-// quiz[11] = new quizConstructor('Ants','Colony',false);
-// quiz[11] = new quizConstructor('Cobras','Quiver',false);
-
-
-
 $(document).ready(function(){
 
-//first, just try to print to the screen
-//for (var i = 0; i<5; i++){
+//on click of a start button, load first question
 
-var i = 0   //set the variable outside the timer function
+var i=0;
+var quiz=[];
+var intervalTimer;
+var delayButtonAlert;
 
-// for now - the timer starts when a button is clicked.  Change that to 
-//be the end of prev question or a 'start quiz' button -----
-//---------------------------------------------------------------
-//click the 'seconds' button to start counting 
-//seconds to the 'seconds-count' line.  The id
-// of startTimer can be used to end the count
-// declared globally, then returned after it's reset in a function
+quizBuild();        //put data into quiz constructor function to make object
 
-var startTimer = 0;     //global (to the doc ready function...)
+$("#new-question").on("click",function(){       //change from click event to something else soon
 
-$("#secCount").on("click",function(){
+    $("#message").html('');       
+    $("#seconds-count").html("");
 
-//startTimer is a number id assigned to the timer.
-// The timer counts for 1000 ms and then executes 'myTimer'
-// function.  It will go forever until terminated by id
-//using the 'stopCount' button.
+    quizWrite(i);       //write out i-th question
+        
+    //begin 1-second-interval timer for display
 
+    intervalTimer = setInterval(myTimer,1000);
+    var Count = 30;  //initialize before starting timer
 
-startTimer = setInterval(myTimer,1000);
-var Count = 0;  //initialize before starting timer
-
-function myTimer(){
-    Count += 1;
-    $("#seconds-count").html(Count + " seconds have passed")
-}
-return startTimer;  // this has to be returned for the timer to stop on click
-})
-
-
-$("#stopCount").on("click",function(){
-    clearTimeout(startTimer);    
-})
-//-------------------above block is the timer that counts seconds------
-//'delayButtonAlert' is an id assigned to the timeout event.
-// the id is used if I want to cancel the countdown
-
-//start this with each new question.  The code inside will simply display the 
-//animation and then start a new question 
-
-$("#start").on("click", function(){
-    delayButtonAlert = setTimeout(function(){
-     $("#timer").html('30 seconds have passed');
-    },30000);
-  });
-  
-  //for now, clicking the cancel button will stop the timer
-  //I'll need to change this to when the question is answered
-  $("#cancel").on("click",function(){
-  clearTimeout(delayButtonAlert);
-  })
-  //this resets anything written to the 'timer' id when the
-  //reset button is pushed (I may not need this...)
-  
-  $("#reset").on("click",function(){
-  $("#timer").html('');
-  })
-  //--------------------------------------------------------
-  
-
-
-    $("#question").html("What do you call a group of " + quiz[i].question + " ?");
-    
-    $("#option-1").html(quiz[i].choice1);
-    $("#option-2").html(quiz[i].choice2);
-    $("#option-3").html(quiz[i].choice3);
-    $("#option-4").html(quiz[i].choice4);
+    function myTimer(){       //this displays the seconds
+        Count -= 1;
+        $("#seconds-count").html('You have '+ Count + " seconds left ")
+    }
    
-    
-       //now, compare chosen option to correct one  
-    $(".btn").on("click",function(){
+    $(".answer").on("click",function(){
         userChoice = parseInt($(this).val());
         console.log(userChoice);
+        console.log(quiz[i]);
+        console.log(quiz[i].ans);
+        clearTimeout(intervalTimer); 
         if (userChoice == quiz[i].ans){
-            $("#seconds-count").html('correct!');        
+            $("#message").html('correct!'); 
+            i++;      
         }
         else {
-            $("#seconds-count").html('sorry!');       
+            $("#message").html('sorry!');
+             i++;       
         }
-    });
-        //make the screen wait 5 seconds for a response
-        delayButtonAlert = setTimeout(function(){
-        $("#timer").html('5 seconds have passed');
-        },5000);
-
-    $("#cancel").on("click",function(){
-        clearTimeout(delayButtonAlert);
-        })
-    
-    }
-
-
-    
-
-     
-
-
  
-
-  
-
-// ---- this is me learning timers ----------------------------------------------
-// the variable 'windowTimeout' is a number assigned to this
-// timer - it is an id that can be used to stop or 
-//reset the timer.
-
-// the function inside executes only AFTER the assigned delay
-
-var windowTimeout = setTimeout(function(){
-    console.log('2 seconds have passed since reset');
-},2000);
+         // increment array item after one attempt (also modify stats here)
+       console.log(i);
+});
+   // compare chosen option to correct one  
 
 
-//-----------end of me learning timers
 
-//set up objects with q/a
-//upon 'start' event, begin cycling thru questions
 
-//post question 1 w/answer choices and start 1) a timer and 2)a counter.
+ //initiate the 30 second timer.  This will execute display of gif, show data and load a new question
 
-//(if) the question is answered before time's up, stop both the timer and counter 
-//(if this is true, determine correctness and calc. stats)
+ //for testing purposes, make this a shorter time
 
-// (else), if the timer runs out on its own, have the counter reset automatically
-// (count this as a missed question)
+    $("#new-question").on("click", function(){      //allow answering the question to activate contents also        
+        delayButtonAlert = setTimeout(function(){
+         $("message").html('5 seconds have passed');
+        },5000);
+      });
 
-//in either case, show answer with an animation and reset timer/counter
+    //   clearTimeout(delayButtonAlert);        //activate this when I want this to stop/reset
+    $("#stop").on("click",function(){      //for now, start timer will stop with answer or button
+        clearTimeout(startTimer);
+        clearTimeout(delayButtonAlert);    
+    })
+    
 
-//when all questions are finished, display stats and display a button for reset/restart
 
-}) //end of document ready function
+})      //end of 'new question' block
+
+
+
+//when first question is loaded, start 2 timers:
+// the seconds count timer and the timeout timer;
 
 function quizConstructor(question,choice1,choice2,choice3,choice4,ans,asked){
+
     this.question = question;
     this.choice1   = choice1;
     this.choice2   = choice2;
@@ -185,3 +85,54 @@ function quizConstructor(question,choice1,choice2,choice3,choice4,ans,asked){
     this.asked     = asked;
 
 }
+
+function quizBuild(){
+
+    console.log('quizBuild');
+
+    quiz[0] = new quizConstructor('Alligators','Scourge','Congregation','Array','Herd',2,false);
+    quiz[1] = new quizConstructor('Crows','Murder','Flutter','Omen','Poe',1,false);
+    quiz[2] = new quizConstructor('Geese','Nuisance','Parliament','Gaggle','Honk',3,false);
+    quiz[3] = new quizConstructor('Mice','Click','Mischief','Nibble','World',2,false);
+    quiz[4] = new quizConstructor('Cockroaches','Immortality','Crunch','Plague','Intrusion',4,false);
+    // --- need to modify the rest ---
+    // quiz[5] = new quizConstructor('Rhinos','Crash',false;
+    // quiz[6] = new quizConstructor('Zebras','Zeal',false);
+    // quiz[7] = new quizConstructor('Rattlesnakes','Rhumba',false);
+    // quiz[8] = new quizConstructor('Cats','Nuisance',false);
+    // quiz[9] = new quizConstructor('Hedgehogs','Array',false);
+    // quiz[10] = new quizConstructor('Ponies','String',false);
+    // quiz[11] = new quizConstructor('Wombats','Wisdom',false);
+    // quiz[12] = new quizConstructor('Wolves','Pack',false);
+    // quiz[13] = new quizConstructor('Lions','Pride',false);
+    // quiz[14] = new quizConstructor('Owls','Parliament',false);
+    // quiz[15] = new quizConstructor('Wombats','Wisdom',false);
+    // quiz[16] = new quizConstructor('Salamanders','congress',false);
+    // quiz[17] = new quizConstructor('Barracuda','Battery',false);
+    // quiz[18] = new quizConstructor('Wombats','Wisdom',false);
+    // quiz[19] = new quizConstructor('Apes','Shrewdness',false);
+    // quiz[20] = new quizConstructor('Mosquitos','Scourge',false);
+    // quiz[11] = new quizConstructor('Ants','Colony',false);
+    // quiz[11] = new quizConstructor('Cobras','Quiver',false);
+
+    return quiz
+}
+
+
+function quizWrite(index){
+
+    console.log('quizWrite');
+
+    $("#question").html("What do you call a group of " + quiz[index].question + " ?");
+    
+    $("#option-1").html(quiz[index].choice1);
+    $("#option-2").html(quiz[index].choice2);
+    $("#option-3").html(quiz[index].choice3);
+    $("#option-4").html(quiz[index].choice4);
+    
+}
+
+
+
+
+})
