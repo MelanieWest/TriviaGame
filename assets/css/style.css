@@ -1,0 +1,25 @@
+body {
+   /* background-image: url("images/swirls.jpg");  */
+    background-image: url("../images/background.jpg");
+    background-size: 100% 100%;  
+}
+
+#question {
+
+    height: 120px;
+    width: 400px;
+    padding: 20px;
+    background-color: bisque;
+}
+
+.button {
+    height: 50px;
+    width: 140px;
+    background-color: bisque;
+}
+
+#seconds-count {
+    background-color: bisque;
+    height: 120px;
+    width: 400px;
+}

@@ -4,13 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src = "jquery-3.2.1.min.js"></script>"
-    <link src = "assets/css/style.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>        
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href = "assets/css/style.css">
     <title>Document</title>
 </head>
 <body>
     <script src = "assets/javascript/app.js">
     </script>
+    <h1> Animal Groups Trivia </h1>
+    <div class = "container">
+        <div class = "col align-self-center">
+    
+            <span class = "row justify-content-center" id = "question"> </span>
+            <div class = "btn-group-vertical align-self-center">
+                <button type = "button" class = "btn btn-primary" id = "option-1" value = "1">here am I send me.....</button>
+                 <button type = "button" class = "btn btn-primary" id = "option-2" value = "2">here2</button>
+                <button type = "button" class = "btn btn-primary" id = "option-3" value = "3">here3</button>
+                <button type = "button" class = "btn btn-primary" id = "option-4" value = "4">here4</button>
+            </div>
+            <h2 id = "seconds-count"></h2>
+        </div>
+        <div id = "picture"></div>
+    </div>
+
+
+    <h2 id = "timer"></h2>
+    <div class = "buttons">
+        <button class = "btn" id = "start">start</button>    
+        <button class = "btn" id = "cancel">cancel</button>
+        <button class = "btn" id = "reset">reset</button>
+    </div>
+    <div class = "timer-buttons">
+        <button class = "btn" id = "secCount">seconds</button>
+        <button class = "btn" id = "stopCount">Stop Timer</button> 
+    </div>
+   
     
 </body>
 </html>
