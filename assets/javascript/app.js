@@ -66,6 +66,7 @@ $("#new-question").on("click",function(){       //change from click event to som
         displayStats();
         imageChoice = imageInsert(i);       //I'm getting multiple images prop to index....
         $("#picture").append(imageChoice);
+        $("#Reveal").html(quizAnswer(index));
 });
   
 
@@ -132,9 +133,26 @@ function quizWrite(index){
     $("#option-2").html(quiz[index].choice2);
     $("#option-3").html(quiz[index].choice3);
     $("#option-4").html(quiz[index].choice4);
-
+ 
   return questionIndex;  
 }
+
+
+function quizAnswer(index){
+    if (quiz[index].ans == 1){
+        quizAns = quiz[index].choice1;
+    }else if (quiz[index].ans == 2){
+        quizAns = quiz[index].choice2;
+    }else if (quiz[index].ans == 3){
+        quizAns = quiz[index].choice3;
+    }if (quiz[index].ans == 4){
+        quizAns = quiz[index].choice4;
+    }
+    return quizAns;
+}
+
+
+
 function displayStats(){
     $(".stats").html("<h2> Correct: "+correct+'<br>'+"Incorrect: " + missed + '<br>' +"Attempted: " +attempted+ '</h2>');
 }
