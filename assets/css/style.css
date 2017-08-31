@@ -1,6 +1,7 @@
 body {
-   /* background-image: url("images/swirls.jpg");  */
-    background-image: url("../images/background.jpg");
+   /* background-image: url("../images/swirls.jpg");  */
+    /* background-image: url("../images/background.jpg"); */
+    background-image: url("../images/sunray.jpg");
     background-size: 100% 100%;  
 }
 
