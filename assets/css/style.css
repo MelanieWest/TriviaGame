@@ -26,7 +26,9 @@ header {
 }
 
 .btn {
+    font-size: 24px;
     background-color: bisque;
+    border: 5px solid green;
 }
 
 #seconds-count, #message {
@@ -35,11 +37,11 @@ header {
     width: 400px;
 }
 #picture {
-    height: 300px;
+    height: 400px;
 }
 
 .stats {
-    height: 200px;
+    height: 100px;
     width: 200px;
     background-color: lightgreen;
 
