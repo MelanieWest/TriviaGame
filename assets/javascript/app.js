@@ -146,29 +146,20 @@ function quizWrite(index){
   return questionIndex;  
 }
 
-//     $('#container').append($('<img>', { 
-//         src : "/path/to/image.jpg", 
-//         width : 16, 
-//         height : 16, 
-//         alt : "Test Image", 
-//         title : "Test Image"
-//     }));
 
-// function reCreateDiv(){
-//     var newDiv = document.createElement("div",{id:"picture"});
-//     var currentDiv = document.getElementById("div1");
-//     document.body.insertBefore(newDiv,currentDiv);
-// }
 
 
 function imageInsert(index){    
     console.log(quiz[index].imageURL);
 
+    index -=1;
     var imageChoice = $('<img>');
     
     imageChoice.addClass('animal');
     
     imageChoice.attr('src', quiz[index].imageURL);
+
+    imageChoice.attr('width','400px');
                       
    return imageChoice;
 }
