@@ -8,6 +8,9 @@ var intervalTimer;
 var delayButtonAlert;
 var Count;
 var imageChoice;
+var correct=0;
+var missed =0;
+var attempted = 0;
 
 var questionIndex;  //protect answer from changing upon accidental double-click of ans button
 
@@ -33,9 +36,7 @@ $("#new-question").on("click",function(){       //change from click event to som
      //begin timeout timer for end-of-question;
 
      delayButtonAlert = setTimeout(function(){
-    //        $("message").html('5 seconds have passed');
-    //        console.log("image here");
-     //       imageChoice = '<img src=' + 'https://media.giphy.com/media/11nNT2EiGIKsBa/giphy.gif' + '/>';
+            displayStats();
             imageChoice = imageInsert(i);
         $("#picture").append(imageChoice);
         },5000);  // picture should show up after 5 seconds
@@ -49,6 +50,7 @@ $("#new-question").on("click",function(){       //change from click event to som
         userChoice = parseInt($(this).val());
         if ((1 <= userChoice) && (userChoice <= 4)){
             quiz[questionIndex].attempted = true; 
+            attempted += 1;
         }
         console.log(userChoice);
         console.log(quiz[questionIndex]);
@@ -57,22 +59,16 @@ $("#new-question").on("click",function(){       //change from click event to som
         clearTimeout(delayButtonAlert);  
         if (userChoice == quiz[questionIndex].ans){
             $("#message").html('correct!');
-  //          i++;
+            correct += 1;
         }
         else {
             $("#message").html('sorry!');
-    //        i++;
+            missed += 1;
         }
          // increment array item after one attempt (also modify stats here)
        console.log(i);
 });
-   // compare chosen option to correct one  
-
-
-
-
- 
-
+  
 
     
     i++;
@@ -80,9 +76,6 @@ $("#new-question").on("click",function(){       //change from click event to som
 })      //end of 'new question' block
 
 
-
-//when first question is loaded, start 2 timers:
-// the seconds count timer and the timeout timer;
 
 function quizConstructor(question,choice1,choice2,choice3,choice4,ans,imageURL,attempted){
 
@@ -145,7 +138,9 @@ function quizWrite(index){
 
   return questionIndex;  
 }
-
+function displayStats(){
+    $(".stats").html("<h2> Correct: "+correct+'<br>'+"Incorrect: " + missed + '</h2>');
+}
 
 
 
@@ -153,6 +148,7 @@ function imageInsert(index){
     console.log(quiz[index].imageURL);
 
     index -=1;
+
     var imageChoice = $('<img>');
     
     imageChoice.addClass('animal');
