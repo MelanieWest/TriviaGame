@@ -39,6 +39,7 @@ $("#new-question").on("click",function(){       //change from click event to som
         displayStats();
         imageChoice = imageInsert(i);
         $("#picture").append(imageChoice);
+        clearTimeout(intervalTimer);            //stop interval timer here 
         i++;
     },30000);  // picture should show up after 30 seconds
 
@@ -48,11 +49,10 @@ $("#new-question").on("click",function(){       //change from click event to som
         if ((1 <= userChoice) && (userChoice <= 4)){
             quiz[questionIndex].attempted = true; 
             attempted += 1;
-            i++;
         }
         // console.log(userChoice);
         // console.log(quiz[questionIndex]);
-        // console.log(quiz[questionIndex].ans);
+        // console.log(quiz[questionIndex].question);
         clearTimeout(intervalTimer);            //stop both timers here
         clearTimeout(delayButtonAlert);  
         if (userChoice == quiz[questionIndex].ans){
@@ -63,12 +63,13 @@ $("#new-question").on("click",function(){       //change from click event to som
             $("#message").html('sorry!');
             missed += 1;
         }
- 
-       displayStats();
+        displayStats();
+        imageChoice = imageInsert(i);       //I'm getting multiple images prop to index....
+        $("#picture").append(imageChoice);
 });
   
 
-    
+        i++;
 
 })      //end of 'new question' block
 
@@ -89,7 +90,7 @@ function quizConstructor(question,choice1,choice2,choice3,choice4,ans,imageURL,a
 
 function quizBuild(){
 
-    console.log('quizBuild');
+//    console.log('quizBuild');
 
     quiz[0] = new quizConstructor('Alligators','Scourge','Congregation','Array','Herd',2,"https://media.giphy.com/media/11nNT2EiGIKsBa/giphy.gif",false);
     quiz[1] = new quizConstructor('Crows','Murder','Flutter','Omen','City',1,'https://media.giphy.com/media/VeTm2S9veYuli/giphy.gif',false);
@@ -98,24 +99,22 @@ function quizBuild(){
     quiz[4] = new quizConstructor('Cockroaches','Immortality','Crunch','Plague','Intrusion',4,'https://media.giphy.com/media/lSwE4S5EPUHf2/giphy.gif',false);
     quiz[5] = new quizConstructor('Rhinos','Rhumba','Wallop','Crash','Cluster',3,'https://media.giphy.com/media/pr7WHmW9qqG4M/giphy.gif',false);
     quiz[6] = new quizConstructor('Zebras','Zeal','Line','Skinny','Zip',1,'https://media.giphy.com/media/l0HlHPUWqZ8iTXjAA/giphy.gif',false);
-    quiz[7] = new quizConstructor('Rattlesnakes','Coil','Rhumba','Slither','Pile',2,'https://media.giphy.com/media/kkw6txIhMqnBu/giphy.gif',false);
-    quiz[8] = new quizConstructor('Cats','Mob','Conspiracy','Royalty','Nuisance',4,'https://media.giphy.com/media/3o85xGRWMlHdGB1vMs/giphy.gif',false);
-    quiz[9] = new quizConstructor('Hedgehogs','Array','Variable','Object','Function',1,'https://media.giphy.com/media/11mVKGuLwmfAZ2/giphy.gif',false);
-     --- need to modify the rest ---
-    // quiz[10] = new quizConstructor('Ponies','String',4,false);
+    quiz[7] = new quizConstructor('Cats','Mob','Conspiracy','Royalty','Nuisance',4,'https://media.giphy.com/media/3o85xGRWMlHdGB1vMs/giphy.gif',false);
+    quiz[8] = new quizConstructor('Hedgehogs','Array','Variable','Object','Function',1,'https://media.giphy.com/media/11mVKGuLwmfAZ2/giphy.gif',false);
+    // --- need to modify the rest ---
+  // quiz[9] = new quizConstructor('Rattlesnakes','Coil','Rhumba','Slither','Pile',2,'https://media.giphy.com/media/kkw6txIhMqnBu/giphy.gif',false);
+  // quiz[10] = new quizConstructor('Ponies','String',4,false);
     // quiz[11] = new quizConstructor('Wombats','Wisdom',2,false);
     // quiz[12] = new quizConstructor('Wolves','Pack',2,false);
     // quiz[13] = new quizConstructor('Lions','Pride',3,false);
     // quiz[14] = new quizConstructor('Owls','Parliament',1,false);
-    // quiz[15] = new quizConstructor('Wombats','Wisdom',3,false);
+    // quiz[15] = new quizConstructor('Cobras','Quiver',false);
     // quiz[16] = new quizConstructor('Salamanders','congress',4,false);
-
     // quiz[17] = new quizConstructor('Barracuda','Battery',false);
     // quiz[18] = new quizConstructor('Wombats','Wisdom',false);
     // quiz[19] = new quizConstructor('Apes','Shrewdness',false);
     // quiz[20] = new quizConstructor('Mosquitos','Scourge',false);
-    // quiz[11] = new quizConstructor('Ants','Colony',false);
-    // quiz[11] = new quizConstructor('Cobras','Quiver',false);
+    // quiz[21] = new quizConstructor('Ants','Colony',false);
 
     return quiz
 }
@@ -123,7 +122,7 @@ function quizBuild(){
 
 function quizWrite(index){
 
-    console.log('quizWrite');
+ //   console.log('quizWrite');
 
     questionIndex = index;
 
@@ -137,13 +136,14 @@ function quizWrite(index){
   return questionIndex;  
 }
 function displayStats(){
-    $(".stats").html("<h2> Correct: "+correct+'<br>'+"Incorrect: " + missed + '</h2>');
+    $(".stats").html("<h2> Correct: "+correct+'<br>'+"Incorrect: " + missed + '<br>' +"Attempted: " +attempted+ '</h2>');
 }
 
 
 
-function imageInsert(index){    
-    console.log(quiz[index].imageURL);
+function imageInsert(index){ 
+
+ //   console.log(quiz[index].imageURL);
 
     index -=1;
 
