@@ -1,96 +1,166 @@
 $(document).ready(function(){
 
 //on click of a start button, load first question
-
-var i=0;
+var i;
 var quiz=[];
-var intervalTimer;
-var delayButtonAlert;
 var Count;
 var imageChoice;
+
 var correct=0;
 var missed =0;
 var attempted = 0;
-var rightAns;
 
-var questionIndex;  //protect answer from changing upon accidental double-click of ans button
+var rightAns;
+var intervalTimer;
+var delayButtonAlert;
+var newQuest;
+var ansAttempt;
+
+
 
 quizBuild();        //put data into quiz constructor function to make object
-$(".answer").hide();
 
-$("#new-question").on("click",function(){       //change from click event to something else soon
+i = 0;
 
-    $(".stats, #Reveal, #message").hide();
-    $("#message").html('');       
-    $("#seconds-count").html("");
-    if(i != 0) {$(".animal").remove();}
+hideStuff();
 
-    quizWrite(i);       //write out i-th question
-     $(".answer").show();
+//first question is loaded with a click
 
-    //begin 1-second-interval timer for display
+$("#new-question").on("click",displayNewQuestion);
 
-    Count = 30;  //initialize before starting timer    
-    intervalTimer = setInterval(function(){
-        Count -= 1;
-        $("#seconds-count").html('<h4> You have '+ Count + ' seconds left </h4>')
+function displayNewQuestion(){
+
+    //hide the button after the first click;  new questions
+    //will automatically display with timers
+
+    if (i > 0) {clearTimeout(newQuest);}
+    
+    hideStuff();
+    
+    //send question and options info to screen
+
+    ansAttempt = false;
+    console.log("New question " + i +  " will display now");
+    quizWrite();
+
+    //Initialize count & display
+    Count = 30;
+    intervalTimer = setInterval(countDown,1000)
+
+    //take this path if time expires..
+    delayButtonAlert = setTimeout(notAttempted,30000)   
+}
+
+   //take this path if they attempt an answer ...
+  // this had to come out of my new question loop
+
+   $(document).on("click",".answer",Attempted);
+   
+
+function countDown(){
+    Count -= 1;
+    $("#seconds-count").html('You have '+ Count + " seconds left ") 
+    return Count;
+}
+
+function hideStuff(){
+    $("#new-question").hide();
+    $(".stats").hide();
+    $("#message").hide();
+    $("#picture").hide();
+    $("#Reveal").hide();
+}
+
+
+function Attempted(){
+    
+        //this executes after an answer was attempted
+        //clear timers when this is called
         
-     },1000);
+        clearTimeout(delayButtonAlert);
+        clearTimeout(intervalTimer);
+    
+        // this function is called if an answer is
+        // attempted before the timeout
 
-     //begin timeout timer for end-of-question;
-     delayButtonAlert = setTimeout(function(){
-        displayStats();
-        imageChoice = imageInsert(i);
-        $("#picture").html(imageChoice);
-        clearTimeout(intervalTimer);            //stop interval timer here 
-        $(".stats, #Reveal, #message").show();
-        i++;
-    },30000);  // picture should show up after 30 seconds
-
-
-    $(".answer").on("click",function(){
+        ansAttempt = true;
+        $("#message").show();
+        
 
         userChoice = parseInt($(this).val());
-        if ((1 <= userChoice) && (userChoice <= 4)){
-            quiz[questionIndex].attempted = true; 
-            attempted += 1;
-        }
-
-        if (quiz[questionIndex].attempted == true){ 
-            $("#message").html('You answered this one already');
-        }
- 
-        // console.log(userChoice);
-        // console.log(quiz[questionIndex]);
-        // console.log(quiz[questionIndex].question);
-        
-        clearTimeout(intervalTimer);            //stop both timers here
-        clearTimeout(delayButtonAlert);  
-        if (userChoice == quiz[questionIndex].ans){
+        console.log(userChoice, i);
+    
+        attempted += 1;
+    
+        if (userChoice == quiz[i].ans){
             $("#message").html('correct!');
             correct += 1;
-        }
+            }
         else {
-            $("#message").html('sorry!');
+            $("#message").html('sorry!');   
             missed += 1;
         }
+    
+        $(".stats").show();
         displayStats();
-        $(".stats, #Reveal, #message").show();
-        imageChoice = imageInsert(i);       //I'm getting multiple images prop to index....
-        $("#picture").html(imageChoice);
-        rightAns = quizAnswer(i);       //make i=index
-        $("#Reveal").html(rightAns);
+    
+        //call the function that displays the answer and gif
+    
+        displayAnsImg();
+    }
+    
+    function notAttempted(){
+    
+         //this executes after 30 seconds have passed
+        //clear timers when this is called
+        if (ansAttempt != true){
 
-});
-  
-        if (i == 8){
-            $("#message").html("Quiz Complete!");
-            $("#question, .answer, #Reveal,").hide();
+        clearTimeout(delayButtonAlert);
+        clearTimeout(intervalTimer);
+    
+        //other two stats will not change
+    
+        missed +=1;
+    
+        $(".stats").show();
+        displayStats();
+    
+        displayAnsImg();
         }
-        i++;
+        else {
+            return
+        }
+    }   
 
-})      //end of 'new question' block
 
+function displayAnsImg(){
+
+     //start a 5-second timer so answers will remain
+    //for 5 seconds before a new question is displayed
+
+    if (i < quiz.length){
+        newQuest = setTimeout(displayNewQuestion,5000);
+    }
+    else {
+        $("#message").html("Game Over");
+        return;
+    }
+    
+    imageChoice = imageInsert();
+
+    $("#picture").html(imageChoice);
+    $("#Reveal").html(quizAnswer());
+
+    $("#picture").show();
+    $("#Reveal").show();
+
+    //display the correct answer and the image
+    //increment i only AFTER displaying answer and image
+
+    i++; 
+    console.log("Answer and image will display now");
+    
+}
 
 
 function quizConstructor(question,choice1,choice2,choice3,choice4,ans,imageURL,attempted){
@@ -103,7 +173,6 @@ function quizConstructor(question,choice1,choice2,choice3,choice4,ans,imageURL,a
     this.ans       = ans;
     this.imageURL  = imageURL;
     this.attempted = attempted;
-
 }
 
 function quizBuild(){
@@ -119,8 +188,8 @@ function quizBuild(){
     quiz[6] = new quizConstructor('Zebras','Zeal','Line','Skinny','Zip',1,'https://media.giphy.com/media/l0HlHPUWqZ8iTXjAA/giphy.gif',false);
     quiz[7] = new quizConstructor('Cats','Mob','Conspiracy','Royalty','Nuisance',4,'https://media.giphy.com/media/3o85xGRWMlHdGB1vMs/giphy.gif',false);
     quiz[8] = new quizConstructor('Hedgehogs','Array','Variable','Object','Function',1,'https://media.giphy.com/media/11mVKGuLwmfAZ2/giphy.gif',false);
-    // --- need to modify the rest ---
-  // quiz[9] = new quizConstructor('Rattlesnakes','Coil','Rhumba','Slither','Pile',2,'https://media.giphy.com/media/kkw6txIhMqnBu/giphy.gif',false);
+    quiz[9] = new quizConstructor('Rattlesnakes','Coil','Rhumba','Slither','Pile',2,'https://media.giphy.com/media/kkw6txIhMqnBu/giphy.gif',false);
+      // --- need to modify the rest ---
   // quiz[10] = new quizConstructor('Ponies','String',4,false);
     // quiz[11] = new quizConstructor('Wombats','Wisdom',2,false);
     // quiz[12] = new quizConstructor('Wolves','Pack',2,false);
@@ -138,32 +207,31 @@ function quizBuild(){
 }
 
 
-function quizWrite(index){
+function quizWrite(){
 
  //   console.log('quizWrite');
 
-    questionIndex = index;
-
-    $("#question").html("What do you call a group of " + quiz[index].question + " ?");
+    $("#question").html("What do you call a group of " + quiz[i].question + " ?");
     
-    $("#option-1").html(quiz[index].choice1);
-    $("#option-2").html(quiz[index].choice2);
-    $("#option-3").html(quiz[index].choice3);
-    $("#option-4").html(quiz[index].choice4);
+    $("#option-1").html(quiz[i].choice1);
+    $("#option-2").html(quiz[i].choice2);
+    $("#option-3").html(quiz[i].choice3);
+    $("#option-4").html(quiz[i].choice4);
  
-  return questionIndex;  
 }
 
+//this function doesn't get called. I compare the
+// value of the button to the answer instead ...
 
-function quizAnswer(index){
-    if (quiz[index].ans == 1){
-        quizAns = quiz[index].choice1;
-    }else if (quiz[index].ans == 2){
-        quizAns = quiz[index].choice2;
-    }else if (quiz[index].ans == 3){
-        quizAns = quiz[index].choice3;
-    }if (quiz[index].ans == 4){
-        quizAns = quiz[index].choice4;
+function quizAnswer(){
+    if (quiz[i].ans == 1){
+        quizAns = quiz[i].choice1;
+    }else if (quiz[i].ans == 2){
+        quizAns = quiz[i].choice2;
+    }else if (quiz[i].ans == 3){
+        quizAns = quiz[i].choice3;
+    }if (quiz[i].ans == 4){
+        quizAns = quiz[i].choice4;
     }
     console.log(quizAns);
 
@@ -178,17 +246,15 @@ function displayStats(){
 
 
 
-function imageInsert(index){ 
+function imageInsert(){ 
 
- //   console.log(quiz[index].imageURL);
-
-    index -=1;
+ //   console.log(quiz[i].imageURL);
 
     var imageChoice = $('<img>');
     
     imageChoice.addClass('animal');
     
-    imageChoice.attr('src', quiz[index].imageURL);
+    imageChoice.attr('src', quiz[i].imageURL);
 
     imageChoice.attr('width','400px');
                       
@@ -197,4 +263,5 @@ function imageInsert(index){
 
 
 
-})
+
+})      //end of document ready
