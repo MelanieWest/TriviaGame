@@ -7,12 +7,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>        
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" href = "assets/css/style.css">
-    <title>Document</title>
+    <title>Trivia Game</title>
 </head>
 <body>
     <script src = "assets/javascript/app.js">
     </script>
     <header> Animal Groups Trivia </header>
+    <div id = "seconds-count"></div>
+    <div id = "div1" class = "stats"></div>
+    
     <div class = "container">
         
         <div class = "row spacer"></div>
@@ -25,19 +28,18 @@
                     <button type = "button" class = "btn btn-block btn-lg answer" id = "option-3" value = "3">Choice C</button>
                     <button type = "button" class = "btn btn-block btn-lg answer" id = "option-4" value = "4">Choice C</button>
                 </div>
-                <h2 id = "seconds-count"></h2>
-                <h2 id = "message"></h2>
+
+                <h3 id = "message"></h3>
             </div>
             <div class="col pic">
                 <div id = "picture"></div>
-                <div id = "div1" class = "stats"></div>
             </div>   
         </div>
     
         
         <div class = "timer-buttons">
             <button class = "btn" id = "new-question">New Question</button>
-            <button class = "btn" id = "Reveal">The Answer Is: </button> 
+            <button class = "btn" id = "Reveal">The Answer Is:   </button> 
         </div>
 
   

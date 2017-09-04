@@ -28,25 +28,41 @@ $("#new-question").on("click",function(){       //change from click event to som
     quizWrite(i);       //write out i-th question
      $(".answer").show();
 
+
     //begin 1-second-interval timer for display
+     Count = 30;  //initialize before starting timer    
+     intervalTimer = setInterval(function(){
+         Count -= 1;
+         $("#seconds-count").html('You have '+ Count + " seconds left ")     
+      },1000);
 
-    Count = 30;  //initialize before starting timer    
-    intervalTimer = setInterval(function(){
-        Count -= 1;
-        $("#seconds-count").html('<h4> You have '+ Count + ' seconds left </h4>')
-        
-     },1000);
 
-     //begin timeout timer for end-of-question;
+        //begin timeout timer for end-of-question;
      delayButtonAlert = setTimeout(function(){
+
         displayStats();
-        imageChoice = imageInsert(i);
+
+        imageChoice = imageInsert(i);       //create new picture div
         $("#picture").html(imageChoice);
+
         clearTimeout(intervalTimer);            //stop interval timer here 
         $(".stats, #Reveal, #message").show();
-        i++;
-    },30000);  // picture should show up after 30 seconds
 
+        i++;
+
+        //need a 3 second timer here
+        delayQuestion = setTimeout(function(){
+            newQuestion(i);         //automate next question
+        },3000;     //3 second delay
+
+    },30000);  // picture & new question after 30
+
+
+    })      //end of 'new question' block
+
+
+
+   
 
     $(".answer").on("click",function(){
 
@@ -81,15 +97,24 @@ $("#new-question").on("click",function(){       //change from click event to som
         rightAns = quizAnswer(i);       //make i=index
         $("#Reveal").html(rightAns);
 
-});
+        i++;
+        
+        //need a 3 second timer here
+        delayQuestion = setTimeout(function(){
+            newQuestion(i);         //automate next question
+        },3000;     //3 second delay
+
+        newQuestion(i);
+
+});     // end of answer block
   
         if (i == 8){
             $("#message").html("Quiz Complete!");
             $("#question, .answer, #Reveal,").hide();
         }
-        i++;
+        
 
-})      //end of 'new question' block
+
 
 
 
@@ -173,7 +198,7 @@ function quizAnswer(index){
 
 
 function displayStats(){
-    $(".stats").html("<h4> Correct: "+correct+'<br>'+"Incorrect: " + missed + '<br>' +"Attempted: " +attempted+ '</h4>');
+    $(".stats").html("<h2> Correct: "+correct+'<br>'+"Incorrect: " + missed + '<br>' +"Attempted: " +attempted+ '</h2>');
 }
 
 
@@ -195,6 +220,42 @@ function imageInsert(index){
    return imageChoice;
 }
 
+function newQuestion(index){
+
+    $(".stats, #Reveal, #message").hide();
+    $("#message").html('');       
+    $("#seconds-count").html("");
+    if(index != 0) {$(".animal").remove();}
+
+    quizWrite(index);       //write out i-th question
+     $(".answer").show();
+ 
+
+    //begin 1-second-interval timer for display
+    Count = 30;  //initialize before starting timer    
+    intervalTimer = setInterval(function(){
+        Count -= 1;
+        $("#seconds-count").html('You have '+ Count + " seconds left ")     
+     },1000);
 
 
-})
+       //begin timeout timer for end-of-question;
+    delayButtonAlert = setTimeout(function(){
+       displayStats();
+
+       imageChoice = imageInsert(i);        //recreate the picture div
+       $("#picture").html(imageChoice);
+
+       clearTimeout(intervalTimer);            //stop interval timer here 
+       $(".stats, #Reveal, #message").show();
+
+       i++;
+       newQuestion(i);                  //automate next question
+
+   },30000);  // picture should show up after 30 seconds
+
+
+}
+
+
+})      //end of document ready
