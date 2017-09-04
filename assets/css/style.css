@@ -59,6 +59,7 @@ header {
     background-color: bisque;
     height: 30px;
     width: 400px;
+    margin: 5px;
 }
 #picture {
     height: 400px;

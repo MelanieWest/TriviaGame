@@ -34,9 +34,10 @@ function displayNewQuestion(){
     //will automatically display with timers
 
     if (i > 0) {clearTimeout(newQuest);}
-    
+
+    $("#new-question").hide();
     hideStuff();
-    
+
     //send question and options info to screen
 
     ansAttempt = false;
@@ -59,12 +60,12 @@ function displayNewQuestion(){
 
 function countDown(){
     Count -= 1;
-    $("#seconds-count").html('You have '+ Count + " seconds left ") 
+    $("#seconds-count").html('<h3> You have '+ Count + " seconds left</h3> ") 
     return Count;
 }
 
 function hideStuff(){
-    $("#new-question").hide();
+
     $(".stats").hide();
     $("#message").hide();
     $("#picture").hide();
