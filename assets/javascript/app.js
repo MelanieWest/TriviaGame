@@ -139,18 +139,20 @@ function displayAnsImg(){
      //start a 5-second timer so answers will remain
     //for 5 seconds before a new question is displayed
 
-    if (i < quiz.length){
+    if (i < quiz.length-1){
         newQuest = setTimeout(displayNewQuestion,5000);
     }
     else {
         $("#message").html("Game Over");
+        $("#question").hide();
+        $(".answer").hide();
         return;
     }
     
     imageChoice = imageInsert();
 
     $("#picture").html(imageChoice);
-    $("#Reveal").html(quizAnswer());
+    $("#Reveal").html("The correct answer is: " + quizAnswer());
 
     $("#picture").show();
     $("#Reveal").show();
