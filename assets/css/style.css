@@ -1,6 +1,4 @@
 body {
-   /* background-image: url("../images/swirls.jpg");  */
-    /* background-image: url("../images/background.jpg"); */
     background-image: url("../images/sunray.jpg");
     background-size: 100% 100%;  
 }
@@ -39,7 +37,9 @@ header {
 
 .spacer{
     height: 80px;
+    width: 100%;
 }
+
 #question {
     font-size: 26px;
     height: 100px;
@@ -54,12 +54,19 @@ header {
     background-color: bisque;
     border: 5px solid green;
 }
+#invis{
+    opacity: 0.0;
+    height: 400px;
+}
 
 #message {
     background-color: bisque;
-    height: 30px;
+    height: 50px;
     width: 400px;
+    padding: 5px;
     margin: 5px;
+    border: 5px solid green;
+    font-size: 30px;
 }
 #picture {
     height: 400px;

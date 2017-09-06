@@ -144,8 +144,16 @@ function displayAnsImg(){
     }
     else {
         $("#message").html("Game Over");
-        $("#question").hide();
-        $(".answer").hide();
+
+        document.getElementById("question").style.opacity = "0.0";
+        document.getElementById("option-1").style.opacity = "0.0";
+        document.getElementById("option-2").style.opacity = "0.0";
+        document.getElementById("option-3").style.opacity = "0.0";
+        document.getElementById("option-4").style.opacity = "0.0";
+
+        //       $("#question").hide();
+        $("#seconds-count").hide();
+        //       $(".answer").hide();
         return;
     }
     
