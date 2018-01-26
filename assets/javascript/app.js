@@ -139,7 +139,7 @@ function displayAnsImg(){
      //start a 5-second timer so answers will remain
     //for 5 seconds before a new question is displayed
 
-    if (i < quiz.length-1){
+    if (i < quiz.length){
         newQuest = setTimeout(displayNewQuestion,5000);
     }
     else {
