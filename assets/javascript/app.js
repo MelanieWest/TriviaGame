@@ -144,6 +144,7 @@ function displayAnsImg(){
     }
     else {
         $("#message").html("Game Over");
+        //$("#new-question").show();          //offer the option to run the game again
 
         document.getElementById("question").style.opacity = "0.0";
         document.getElementById("option-1").style.opacity = "0.0";
